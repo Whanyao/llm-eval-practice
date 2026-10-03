@@ -1,6 +1,6 @@
 """
 Day 2 实验：温度对照实验（规范化版）
-文件：D:\\Software\\llm-eval-practice\\temp_experiment.py
+文件：evaluation\\experiments\\temp_experiment.py
 
 【实验目的】
     验证 temperature 对输出稳定性的影响 —— 用数据说话，不用肉眼感觉。
@@ -10,6 +10,11 @@ Day 2 实验：温度对照实验（规范化版）
     唯一变量：  temperature（0 和 1.5 两组）
     每组跑 3 次，记录每次的输出长度，看哪组稳定、哪组发散
 
+【实验结论（2026-10-02 实测，结果见 temp_experiment.csv）】
+    temperature=0：3 次输出完全一致（输出 tokens 与字数逐次相同）→ 可复现，适合评测基线
+    temperature=1.5：3 次输出长度极差达 8 tokens，措辞发散 → 反映线上随机性
+    推论：单次 t=0 结果只能测「能力基线」，要评估线上表现必须多次采样看通过率。
+
 【为什么必须用脚本而不是手动截图】
     1. 变量锁死：脚本里 system 和 question 写死，不会手滑改错
     2. 自动记录：结果直接进表格，不用肉眼对比截图
@@ -18,10 +23,11 @@ Day 2 实验：温度对照实验（规范化版）
 
 运行方式：
     cd /d D:\\Software\\llm-eval-practice
-    venv\\Scripts\\python.exe temp_experiment.py
+    venv\\Scripts\\python.exe evaluation\\experiments\\temp_experiment.py
 """
 
 import os
+from pathlib import Path
 import pandas as pd
 from openai import OpenAI
 
@@ -78,5 +84,6 @@ print("极差小 = 每次输出长度接近 = 稳定（t=0 应该是这样）")
 print("极差大 = 每次输出长度飘忽 = 发散（t=1.5 应该是这样）")
 print("这个『极差对比』就是你评测报告里的一张表。")
 
-df.to_csv("temp_experiment.csv", index=False, encoding="utf-8-sig")
-print("\n明细已保存：temp_experiment.csv")
+OUT_FILE = str(Path(__file__).resolve().parent / "temp_experiment.csv")   # 结果固定落在本脚本同目录
+df.to_csv(OUT_FILE, index=False, encoding="utf-8-sig")
+print(f"\n明细已保存：{OUT_FILE}")

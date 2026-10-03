@@ -6,12 +6,14 @@
 
 ```
 llm-eval-practice/
-├── practice/              # 学习练习区（Day1-2 语法练习、temperature 实验、10/2 练手小文件）
-├── evaluation/            # 评测项目区（简历项目）
+├── evaluation/            # 评测项目区（本仓库主体，全部可展示产出）
 │   ├── scripts/           # eval_v1.py / rag_eval.py / review_compare.py / arbitrate.py
 │   ├── datasets/          # 评测集 finance_eval_v1(.1).csv、RAG 知识库 kb_docs.md
-│   ├── results/           # 逐题明细、复核表（自动生成，可随时重跑再生）
+│   ├── experiments/       # 控制变量实验（temperature 对照）
+│   ├── results/           # 逐题明细、复核表（自动生成，可重跑再生）
 │   └── reports/           # EVAL_REPORT_v1.md、ANNOTATION_GUIDELINE_v1.md
+├── practice/              # 本地学习练习区（Day1-2 语法练习、API 首次调用等）
+│                          # ⚠️ 已在 .gitignore 中，不推送 —— 仓库只放可展示产出
 └── venv/                  # Python 虚拟环境（不入库）
 ```
 
@@ -32,6 +34,7 @@ llm-eval-practice/
 | `evaluation/scripts/rag_eval.py` | RAG 最小原型：检索 → 拼 prompt → 生成（含 nocontext 对照模式） |
 | `evaluation/scripts/review_compare.py` | 双标注一致性对比（Cohen's Kappa 手算实现） |
 | `evaluation/scripts/arbitrate.py` | 仲裁脚本：按标注规范裁定分歧，产出定稿标签 |
+| `evaluation/experiments/temp_experiment.py` | 控制变量实验：temperature 对输出稳定性的影响（t=0 三次完全一致 vs t=1.5 极差 8 tokens） |
 | `evaluation/results/` | 逐题明细与复核表（可由脚本重新生成） |
 
 ### 评测集设计要点
@@ -45,6 +48,16 @@ llm-eval-practice/
 - 关键词判分存在"同义不同词"与"正确但表述简洁"两类误杀（实测 4 题）→ 引入 **LLM-as-a-Judge**
 - 单次采样未反映线上随机性 → 引入**双轨口径**（t=0 能力基线 + 线上参数多次采样通过率）
 - 单模型，无法横向对比 → 增加第二厂商模型做对照
+
+## 仓库约定（什么进仓库，什么留在本地）
+
+| 内容 | 位置 | 是否推送 |
+|---|---|---|
+| 评测集、脚本、实验、报告、结果 | `evaluation/` | ✅ 推送（面试展示素材） |
+| 语法练习、API 首次调用、随手脚本 | `practice/` | ❌ 本地保留，`.gitignore` 已排除 |
+| 虚拟环境、缓存、密钥 | `venv/` / `*.pyc` / `.env` | ❌ 排除 |
+
+判断标准：**这份文件能不能让面试官看到我的方法论和结论？** 能则进仓库，只是"敲代码练手"就留本地。
 
 ## 复现方式
 

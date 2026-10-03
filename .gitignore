@@ -5,3 +5,6 @@ __pycache__/
 *.log
 .vscode/
 outputs/
+
+# 本地学习练习区：只留在这台电脑上，不推送（仓库只放能给面试官看的产出）
+practice/
