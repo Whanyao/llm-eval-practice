@@ -116,7 +116,7 @@ def main():
 
     done_path = Path(FILE).parent / "review_done.csv"
     done.to_csv(done_path, index=False, encoding="utf-8-sig")
-    print(f"\n[已保存] {done_path.name}（带 ai_label / my_label 两列，可直接给面试官看）")
+    print(f"\n[已保存] {done_path.name}（带 ai_label / my_label 两列，便于追溯双标注过程）")
 
 
 if __name__ == "__main__":

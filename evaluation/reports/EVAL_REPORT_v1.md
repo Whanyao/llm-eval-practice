@@ -221,7 +221,7 @@ cd /d D:\Software\llm-eval-practice
 | `arbitrate.py` | 分歧仲裁 + 仲裁后指标重算（仲裁规则内嵌，可审计） |
 | `review_final.csv` | 定稿标签表（ai_label / human_label / arbitrated / final_passed 四列） |
 
-### B.6 面试可讲的三句话
+### B.6 本次评测沉淀的三条核心结论
 
 1. 「我的标注规范是**被数据逼出来的**——首次双标注 Kappa 只有 0.346，我把 10 条分歧逐条仲裁、把判据写进规范，Kappa 提到 0.693。」
 2. 「我做过一次诚实实验：**AI 初标 vs 人工标注**，结果人工更准（80% vs 70%）。AI 的系统性偏差是**高估模型能力**——它倾向把超纲题判成模型答错。」
