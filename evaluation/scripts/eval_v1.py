@@ -28,8 +28,13 @@ from openai import OpenAI
 
 
 # ============ 0. 配置区（改这里就行） ============
-EVAL_SET = "finance_eval_v1.csv"        # 评测集文件
-RESULT_FILE = "eval_results_v1.csv"     # 结果明细落盘位置
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parents[1]              # evaluation/ 目录（脚本放 evaluation/scripts/ 下）
+DATASETS = BASE / "datasets"                            # 评测集目录
+RESULTS = BASE / "results"                              # 结果目录
+EVAL_SET = str(DATASETS / "finance_eval_v1.csv")        # 评测集文件
+RESULT_FILE = str(RESULTS / "eval_results_v1.csv")      # 结果明细落盘位置
 MODEL = "deepseek-chat"                 # 被测模型
 TEMPERATURE = 0.0                       # 评测固定 0，求可复现
 MAX_TOKENS = 300                        # 财务题答案不长，300 够用
@@ -61,7 +66,7 @@ def ask_model(client, question):
                 model=MODEL,
                 messages=[
                     # system 固定角色：评测时所有题目用同一个 system，保证变量纯净
-                    {"role": "system", "content": "你是一名企业资产管理系统的财务顾问，回答要准确、简洁。"},
+                    {"role": "system", "content": "你是一名企业资产管理系统的财务顾问，回答要准确、简洁。如果遇到你不确定或无法获知的信息，请直接回答「我不确定」，不要编造。"},
                     {"role": "user", "content": question},
                 ],
                 temperature=TEMPERATURE,
@@ -101,7 +106,19 @@ def judge(answer, keywords):
 
 # ============ 4. 主流程 ============
 def main():
-    limit = int(sys.argv[1]) if len(sys.argv) > 1 else None   # 命令行可选参数：只跑前 N 题
+    # 用法：python eval_v1.py [评测集文件名] [只跑前 N 题]
+    #   例：python eval_v1.py                      -> 跑 v1 全量
+    #       python eval_v1.py finance_eval_v1.1.csv -> 跑判分器 v1.1
+    #       python eval_v1.py finance_eval_v1.1.csv 3 -> 跑前 3 题冒烟
+    eval_set, limit = EVAL_SET, None
+    for a in sys.argv[1:]:
+        if a.isdigit():
+            limit = int(a)
+        else:
+            # 允许只给文件名：自动到 datasets/ 目录找
+            eval_set = a if Path(a).exists() else str(DATASETS / a)
+    # 结果文件名跟着评测集走：finance_eval_X.csv -> eval_results_X.csv，统一落 results/（避免覆盖历史结果）
+    result_file = str(RESULTS / Path(eval_set).name.replace("finance_eval", "eval_results"))
 
     api_key = get_api_key()
     if not api_key:
@@ -110,10 +127,10 @@ def main():
 
     client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
 
-    df = pd.read_csv(EVAL_SET)
+    df = pd.read_csv(eval_set)
     if limit:
         df = df.head(limit)
-    print(f"评测集：{EVAL_SET}｜共 {len(df)} 题｜模型：{MODEL}｜temperature={TEMPERATURE}\n")
+    print(f"评测集：{eval_set}｜共 {len(df)} 题｜模型：{MODEL}｜temperature={TEMPERATURE}\n")
 
     rows = []
     for i, r in df.iterrows():
@@ -134,8 +151,8 @@ def main():
         time.sleep(SLEEP)
 
     result = pd.DataFrame(rows)
-    result.to_csv(RESULT_FILE, index=False, encoding="utf-8-sig")
-    print(f"\n明细已写入：{RESULT_FILE}")
+    result.to_csv(result_file, index=False, encoding="utf-8-sig")
+    print(f"\n明细已写入：{result_file}")
 
     # ---- 报表：总体 + 分层 + 分类（就是昨天 pandas 课的那两行） ----
     valid = result[result["passed"].notna()]
