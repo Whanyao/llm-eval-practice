@@ -1,4 +1,4 @@
-并且把我get lab上面的内容也变得跟D盘这个目录下一样，分为多个文件夹去存储。,category,layer,question,golden_answer,retrieved,gold_in_topk,gold_rank,gold_in_kb,model_answer,passed
+﻿id,category,layer,question,golden_answer,retrieved,gold_in_topk,gold_rank,gold_in_kb,model_answer,passed
 1,账期,正常,资产入账账期字段记录的是什么？它的取值来自哪个日期？,记录卡片入账时的账期年月（例如202301）、取值等于卡片入账日期、并且一经录入不会改变、不参与系统的赋值运算,,False,,True,资产入账账期字段记录的是资产财务入账所属的会计期间，取值来自资产入账日期（即财务确认入账的日期）所对应的会计期间。,False
 2,折旧,正常,开展资产折旧工作前必须先配置好什么？,必须先配置折旧方法和折旧公式，折旧方法在基础数据中维护、折旧公式在折旧公式配置功能中维护,,False,,True,"开展资产折旧工作前，必须先配置好**折旧政策（折旧规则）**，通常包括：
 
