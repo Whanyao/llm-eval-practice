@@ -48,15 +48,25 @@ llm-eval-practice/
 从公开中文基准 C-Eval val 集抽取 100 题（7 科目：会计 28 / 税务 26 / 经济 16 / 工商管理 10 / 编程 8 / 法律 6 / 逻辑 6），
 自建选择题批量评测脚本，对 `deepseek-chat` 跑通自动判分基线。
 
-**核心结论**：总体准确率 **87.0%**（87/100，`parse_fail` 0）。
+**基线结论**：`deepseek-chat` 总体准确率 **87.0%**（87/100，`parse_fail` 0）。
 分科目：**经济 / 法律 / 逻辑 100%**，编程 87.5%、会计 82.1%、税务 80.8%、工商管理 80.0%
 —— **短板集中在三个财务专业科目，与项目一「领域概念错配」的结论同向**。
+
+**双模型对比结论**：同题库、同提示词、同判分口径下，对比
+`Qwen/Qwen3-30B-A3B-Instruct-2507`（MoE 架构，经硅基流动）得 **80.0%**，差 **-7.0pp**。
+21 道分歧题中 DeepSeek 胜 16、Qwen 胜 5；**两模型 `parse_fail` 均为 0**
+—— 格式遵循度无差异，差距在知识与推理层。Qwen 失分集中在三类题：
+**① 否定式提问下的干扰项鉴别　② 多步状态推演　③ 中国本土法规/税会实务**。
+逐题归因（含 5 道典型题 + 1 道反向样本）见 [`COMPARE_REPORT_v0.md`](evaluation/reports/COMPARE_REPORT_v0.md)。
 
 | 文件 | 说明 |
 |---|---|
 | `evaluation/datasets/ceval_benchmark100.csv` | 100 题 × 7 科目，含四个选项与标准答案 |
 | `evaluation/scripts/eval_choice.py` | 选择题批量评测脚本：三模式（selftest / smoke / deepseek）、断点续跑、正则提取字母 |
-| `evaluation/results/benchmark_deepseek.csv` | 逐题明细（含模型原始输出、提取结果、单题耗时） |
+| `evaluation/scripts/compare_models.py` | 双模型对比脚本：按 `subject#id` 复合键逐题对齐，输出总体 / 分科目 / 分歧题清单 |
+| `evaluation/results/benchmark_deepseek.csv` | DeepSeek 逐题明细（含模型原始输出、提取结果、单题耗时） |
+| `evaluation/results/benchmark_qwen.csv` | Qwen 逐题明细（字段同上） |
+| [`COMPARE_REPORT_v0.md`](evaluation/reports/COMPARE_REPORT_v0.md) | 双模型对比报告：总体 / 分科目 / 21 道分歧题 / 逐题归因 |
 | [`RUN_LOG.md`](evaluation/reports/RUN_LOG.md) | 运行日志：环境 / 参数 / 结果 / **本轮抓到的 3 个真 bug** / v2 改进项 |
 
 ### 本轮抓到的 3 个真 bug（都是可复现性问题）

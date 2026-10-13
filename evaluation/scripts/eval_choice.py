@@ -38,25 +38,25 @@ RESULTS = BASE / "results"
 
 EVAL_SET = DATASETS / "ceval_benchmark100.csv"      # 100 题子集（7 科目，含 answer 列）
 
-MODEL = "deepseek-chat"
+MODEL = "Qwen/Qwen3-30B-A3B-Instruct-2507"
 TEMPERATURE = 0.0            # 评测固定 0：求可复现（这是"能力基线"，别动它）
 MAX_TOKENS = 16              # ★关键：只让它吐一个字母，留 16 个 token 足够，废话少了提取成功率就高
 RETRY = 3                    # API 失败重试次数
 SLEEP = 0.4                  # 调用间隔，避免限流
 
 # 每个模型一个结果文件：换模型只改 MODEL + 这个文件名
-RESULT_FILE = RESULTS / "benchmark_deepseek.csv"
+RESULT_FILE = RESULTS / "benchmark_qwen.csv"
 
 
 # ============ 1. 取 API Key（环境变量优先，注册表兜底；绝不硬编码） ============
 def get_api_key():
-    key = os.environ.get("DEEPSEEK_API_KEY")
+    key = os.environ.get("SILICONFLOW_API_KEY")
     if key:
         return key
     try:
         import winreg
         k = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment")
-        key, _ = winreg.QueryValueEx(k, "DEEPSEEK_API_KEY")
+        key, _ = winreg.QueryValueEx(k, "SILICONFLOW_API_KEY")
         return key
     except Exception:
         return None
@@ -223,9 +223,9 @@ def main():
 
     api_key = get_api_key()
     if not api_key:
-        print("✗ 没找到 API Key（环境变量 DEEPSEEK_API_KEY）")
+        print("✗ 没找到 API Key（环境变量 SILICONFLOW_API_KEY）")
         sys.exit(1)
-    client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
+    client = OpenAI(api_key=api_key, base_url="https://api.siliconflow.cn/v1")
 
     df = pd.read_csv(EVAL_SET)                 # 已是 UTF-8-sig；若你手动用 Excel 存过，会变 GBK，届时加 encoding='gbk'
     if mode == "smoke":
