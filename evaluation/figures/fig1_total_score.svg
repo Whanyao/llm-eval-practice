@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="680" viewBox="0 0 1000 680">
+<rect width="1000" height="680" fill="#FFFFFF"/>
+<text x="500" y="50" text-anchor="middle" font-size="27" font-weight="bold" fill="#1F2329" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">两款模型在 C-Eval 100 题子集上的总准确率</text>
+<text x="500" y="80" text-anchor="middle" font-size="15" fill="#6B7280" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">同一题库（7 科目 / 100 题） · 同一提示词 · temperature=0.0 · 取单次运行结果</text>
+<line x1="110" y1="530.0" x2="940.0" y2="530.0" stroke="#E5E7EB" stroke-width="1"/>
+<text x="94" y="535.0" text-anchor="end" font-size="14" fill="#6B7280" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">0%</text>
+<line x1="110" y1="448.0" x2="940.0" y2="448.0" stroke="#E5E7EB" stroke-width="1"/>
+<text x="94" y="453.0" text-anchor="end" font-size="14" fill="#6B7280" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">20%</text>
+<line x1="110" y1="366.0" x2="940.0" y2="366.0" stroke="#E5E7EB" stroke-width="1"/>
+<text x="94" y="371.0" text-anchor="end" font-size="14" fill="#6B7280" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">40%</text>
+<line x1="110" y1="284.0" x2="940.0" y2="284.0" stroke="#E5E7EB" stroke-width="1"/>
+<text x="94" y="289.0" text-anchor="end" font-size="14" fill="#6B7280" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">60%</text>
+<line x1="110" y1="202.0" x2="940.0" y2="202.0" stroke="#E5E7EB" stroke-width="1"/>
+<text x="94" y="207.0" text-anchor="end" font-size="14" fill="#6B7280" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">80%</text>
+<line x1="110" y1="120.0" x2="940.0" y2="120.0" stroke="#E5E7EB" stroke-width="1"/>
+<text x="94" y="125.0" text-anchor="end" font-size="14" fill="#6B7280" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">100%</text>
+<line x1="110" y1="530" x2="940.0" y2="530" stroke="#9CA3AF" stroke-width="1.5"/>
+<rect x="285.0" y="173.3" width="130" height="356.7" fill="#2E6FD9" rx="3"/>
+<text x="350" y="219.3" text-anchor="middle" font-size="30" font-weight="bold" fill="#FFFFFF" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">87.0%</text>
+<text x="350" y="245.3" text-anchor="middle" font-size="15" fill="#EAF0FB" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">87 / 100 题</text>
+<text x="350" y="564" text-anchor="middle" font-size="16" fill="#1F2329" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">DeepSeek-V3 (deepseek-chat)</text>
+<rect x="635.0" y="202.0" width="130" height="328.0" fill="#E8952F" rx="3"/>
+<text x="700" y="248.0" text-anchor="middle" font-size="30" font-weight="bold" fill="#FFFFFF" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">80.0%</text>
+<text x="700" y="274.0" text-anchor="middle" font-size="15" fill="#EAF0FB" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">80 / 100 题</text>
+<text x="700" y="564" text-anchor="middle" font-size="16" fill="#1F2329" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">Qwen3-30B-A3B-Instruct-2507</text>
+<line x1="350" y1="150" x2="700" y2="150" stroke="#9CA3AF" stroke-width="1.2" stroke-dasharray="5 4"/>
+<rect x="428" y="134" width="144" height="32" rx="16" fill="#FFF4E5" stroke="#F0C48A"/>
+<text x="500" y="156" text-anchor="middle" font-size="16" font-weight="bold" fill="#B26A00" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">相差 7.0pp</text>
+<text x="110" y="618" font-size="14" fill="#6B7280" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">算式：DeepSeek 87÷100=87.0%　|　Qwen 80÷100=80.0%　|　相减 = 7.0pp（共 100 题，1 题 = 1pp）</text>
+<text x="110" y="644" font-size="14" fill="#6B7280" font-family="Microsoft YaHei, Segoe UI, SimHei, sans-serif">pp = 百分点，两数直接相减；若说「高出百分之几」则是 (87.0−80.0)÷80.0 = 8.75%，两种说法别混用。</text>
+</svg>
